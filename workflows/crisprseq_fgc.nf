@@ -104,15 +104,14 @@ workflow CRISPRSEQ_FGC {
     //
     // Create input channel from input file provided through params.input
     //
-    Channel.fromSamplesheet("input")
 
     //
     // Create input channel from input file provided through params.input
     //
-    .map{
-        meta, fastq_1, fastq_2, x, y, z ->
+    Channel.fromSamplesheet("input")
+    .multiMap { meta, fastq_1, fastq_2, x, y, z ->
         // x (reference), y (protospacer), and z (template) are part of the targeted workflows and we don't need them
-            return   [ meta, [ fastq_1 ] ]
+        reads:   [ meta, fastq_1 ]
     }
     .set { ch_input }
 
@@ -120,7 +119,7 @@ workflow CRISPRSEQ_FGC {
     // MODULE: Run FastQC
     //
     FASTQC (
-        ch_input
+        ch_input.reads
     )
     ch_versions = ch_versions.mix(FASTQC.out.versions.first())
 
@@ -135,6 +134,7 @@ workflow CRISPRSEQ_FGC {
             FASTQC.out.zip
         )
         .adapters
+        .join(ch_input)
         .groupTuple(by: [0])
         // Separate samples by containing overrepresented sequences or not
         .branch {
@@ -167,6 +167,7 @@ workflow CRISPRSEQ_FGC {
     } else {
         ch_trimmed = ch_input
     }
+
 }
 
 /*
