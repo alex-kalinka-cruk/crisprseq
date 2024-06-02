@@ -49,17 +49,16 @@ WorkflowMain.initialise(workflow, params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { CRISPRSEQ_TARGETED  } from './workflows/crisprseq_targeted'
-include { CRISPRSEQ_SCREENING } from './workflows/crisprseq_screening'
+//include { CRISPRSEQ_TARGETED  } from './workflows/crisprseq_targeted'
+//include { CRISPRSEQ_SCREENING } from './workflows/crisprseq_screening'
+include { CRISPRSEQ_FGC } from './workflows/crisprseq_fgc'
 
 //
 // WORKFLOW: Run main nf-core/crisprseq analysis pipeline
 //
 workflow NFCORE_CRISPRSEQ {
-    if ( params.analysis == "targeted" ) {
-        CRISPRSEQ_TARGETED ()
-    } else if ( params.analysis == "screening" ) {
-        CRISPRSEQ_SCREENING ()
+    if ( params.analysis == "fgc" ) {
+        CRISPRSEQ_FGC ()
     }
 }
 

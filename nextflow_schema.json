@@ -33,7 +33,7 @@
                     "type": "string",
                     "fa_icon": "fas fa-cog",
                     "description": "Type of analysis to perform. Targeted for targeted CRISPR experiments and screening for CRISPR screening experiments.",
-                    "enum": ["screening", "targeted"]
+                    "enum": ["fgc"]
                 },
                 "email": {
                     "type": "string",
